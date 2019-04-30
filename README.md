@@ -2,6 +2,7 @@
 Algorithms  and Data Structures
 
 ## 排序算法
+参考[Javascript算法——希尔排序](https://segmentfault.com/a/1190000009461832)
 ![排序算法](./img/sort.png "排序算法")
  
 1. 快速排序
@@ -110,3 +111,64 @@ function shellSort(arr) {
 ```
 
 
+## 栈队列链表
+参考[JavaScript 的数据结构与算法 (一)](https://juejin.im/entry/58759e79128fe1006b48cdfd)
+
+1.栈的实现  先进后出
+```js
+function Stack(){
+  this.items=[]
+}
+Stack.prototype={
+    constructor:Stack,
+    push:function(element){
+        this.items.push(element)
+    },
+    pop:function(){
+        this.items.pop()
+    },
+    peek:function(){
+        return this.items[this.items.length-1]
+    },
+    isEmpty:function(){
+       return this.items.length==0
+    },
+    clear:function(){
+        this.items=[]
+    },
+    size:function(){
+        return this.items.length
+    },
+    print:function(){
+        console.log(this.items.toString())
+    }
+}
+```
+
+通过栈实现对正整数的二进制转换
+```
+function divideBy2(decNumber){
+  var decStack=new Stack()
+  var rem;
+  var decString=''
+  while(decNumber>0){
+    rem=decNumber%2
+    decStack.push(rem)
+    decNumber=Math.floor(decNumber/2)
+  }
+  while(!decStack.isEmpty){
+    decString+=decStack.pop().toString()
+  }
+  return decString;
+}
+```
+
+
+
+
+
+
+
+
+## 原型链
+1.bind的实现
