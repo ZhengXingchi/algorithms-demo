@@ -170,9 +170,9 @@ function divideBy2(decNumber){
 
 
 
-## 原型链
-1.bind的实现
 
 
 
-2.继承的实现
+
+
+
