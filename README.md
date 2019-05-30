@@ -164,7 +164,183 @@ function divideBy2(decNumber){
 ```
 
 
+## 二叉树
+参考[js 中二叉树的深度遍历与广度遍历(递归实现与非递归实现)](https://www.jianshu.com/p/5e9ea25a1aae)
+二叉树`(a+b*c)-d/e`在js中可以用对象的形式表示出来：
+```
+var tree = {
+    value: "-",
+    left: {
+        value: '+',
+        left: {
+            value: 'a',
+        },
+        right: {
+            value: '*',
+            left: {
+                value: 'b',
+            },
+            right: {
+                value: 'c',
+            }
+        }
+    },
+    right: {
+        value: '/',
+        left: {
+            value: 'd',
+        },
+        right: {
+            value: 'e',
+        }
+    }
+}
 
+```
+
+先序遍历-递归遍历
+```
+let result = []
+let dfs=function(node){
+  if(node){
+    result.push(node.value)
+    dfs(node.left)
+    dfs(node.right)
+  }
+}
+dfs(tree)
+console.log(result)
+```
+
+先序遍历-非递归遍历
+```
+let dfs=function (nodes){
+  let result = []
+  let stack =[]
+  stack.push(nodes);
+  while(stack.length){
+    let node = stack.pop()
+    result.push(node.value)
+    if(node.right) stack.push(node.right)
+    if(node.left)  stack.push(node.left)
+  }
+  return result
+}
+dfs(tree)
+
+```
+
+
+中序遍历-非递归遍历
+```
+let dfs=function(node){
+  let result = []
+  let stack= []
+  while(stack.length || node){
+    if(node){
+      stack.push(node)
+      node=node.left
+    }else{
+      node=stack.pop()
+      result.push(node.value)
+      node=node.right
+    }
+
+  }
+  return result
+}
+dfs(tree)
+```
+
+
+
+波兰式&逆波兰式
+参考[前面面试之3-15 算法类](https://www.jianshu.com/p/461a3ef491b0?utm_campaign=maleskine&utm_content=note&utm_medium=seo_notes&utm_source=recommendation)
+
+
+```
+var keys = ['province', 'city', 'name']
+var data = [{
+  "province": "浙江",
+  "city": "杭州",
+  "name": "西湖"
+}, {
+  "province": "四川",
+  "city": "成都",
+  "name": "锦里"
+}, {
+  "province": "四川",
+  "city": "成都",
+  "name": "方所"
+}, {
+  "province": "四川",
+  "city": "阿坝",
+  "name": "九寨沟"
+}]
+```
+
+
+=>
+
+
+
+
+```
+var data = [{
+  "value": "浙江",
+  "children": [{
+    "value": "杭州",
+    "children": [{
+      "value": "西湖"
+    }]
+  }]
+}, {
+  "value": "四川",
+  "children": [{
+    "value": "成都",
+    "children": [{
+      "value": "锦里"
+    }, {
+      "value": "方所"
+    }]
+  }, {
+    "value": "阿坝",
+    "children": [{
+      "value": "九寨沟"
+    }]
+  }]
+}]
+```
+
+采用trie 树实现
+```
+
+var transObject = function(tableData, keys) {
+  let hashTable = {}, res = []
+  for (let i = 0; i < tableData.length; i++) {
+    let arr = res, cur = hashTable
+    for (let j = 0; j < keys.length; j++) {
+      let key = keys[j], filed = tableData[i][key]
+      if (!cur[filed]) {
+        let pusher = {
+          value: filed
+        }, tmp
+        if (j !== (keys.length - 1)) {
+          tmp = []
+          pusher.children = tmp
+        }
+        cur[filed] = { $$pos: arr.push(pusher) - 1 }
+        cur = cur[filed]
+        arr = tmp
+      } else {
+        cur = cur[filed]
+        arr = arr[cur.$$pos].children
+      }
+    }
+  }
+  return res
+}
+```
 
 
 
